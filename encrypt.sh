@@ -2,6 +2,16 @@
 
 set -e -o pipefail -u
 
+if ! command -v sk &> /dev/null; then
+    echo "The command 'sk' aka 'skim' is not installed."
+    exit 1
+fi
+
+if ! command -v age &> /dev/null; then
+    echo "The command 'age' is not installed."
+    exit 1
+fi
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
     CLIPBOARD="pbcopy"
 else
