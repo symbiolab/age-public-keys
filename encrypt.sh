@@ -8,17 +8,18 @@ else
     CLIPBOARD="xsel -b"
 fi
 
-PUBLIC_KEY_FILES=$(ls *.age.pub | sk -m -p "Select keys (tab for multi select)")
-RECIPIENTS_FILE=$(mktemp /tmp/age_encrypt_tempfile.XXXXXX)
 
 trap cleanup EXIT
 cleanup() {
   rm -f "$RECIPIENTS_FILE" "$MESSAGE_FILE"
 }
 
+PUBLIC_KEY_FILES=$(ls *.age.pub | sk -m -p "Select keys (tab for multi select)")
+RECIPIENTS_FILE=$(mktemp /tmp/age_recipients_tempfile.XXXXXX)
+
 echo $PUBLIC_KEY_FILES | xargs cat > $RECIPIENTS_FILE
 
-MESSAGE_FILE=$(mktemp)
+MESSAGE_FILE=$(mktemp /tmp/age_encrypt_tempfile.XXXXXX)
 $EDITOR $MESSAGE_FILE
 
 [[ -s $MESSAGE_FILE ]] || {
