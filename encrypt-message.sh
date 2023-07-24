@@ -27,7 +27,7 @@ cleanup() {
 PUBLIC_KEY_FILES=$(ls *.age.pub | sk -m -p "Select keys (tab for multi select)")
 RECIPIENTS_FILE=$(mktemp /tmp/age_recipients_tempfile.XXXXXX)
 
-echo $PUBLIC_KEY_FILES | xargs cat > $RECIPIENTS_FILE
+echo $PUBLIC_KEY_FILES | xargs cat | sed '/^#/d' > $RECIPIENTS_FILE
 
 MESSAGE_FILE=$(mktemp /tmp/age_encrypt_tempfile.XXXXXX)
 $EDITOR $MESSAGE_FILE
